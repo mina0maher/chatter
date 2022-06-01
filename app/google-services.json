@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "911107894060",
+    "project_id": "chatter-54f57",
+    "storage_bucket": "chatter-54f57.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911107894060:android:b10cf732d56c0738b29a89",
+        "android_client_info": {
+          "package_name": "com.mina.chatter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "911107894060-4mp042lpjo55ca551qq8o4dg2560b7da.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB1HfoVnwq78eY1I-k3Z5ceoLV-aS2d1hc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "911107894060-4mp042lpjo55ca551qq8o4dg2560b7da.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
