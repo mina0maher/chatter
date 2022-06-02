@@ -23,20 +23,20 @@ public class SignInActivity extends AppCompatActivity {
     private void setListeners(){
         binding.textCreateNewAccount.setOnClickListener(v ->
                 startActivity(new Intent(getApplicationContext(),SingUpActivity.class)));
-        binding.buttonSignIn.setOnClickListener(v -> addDataToFirestore());
+        //binding.buttonSignIn.setOnClickListener(v -> addDataToFirestore());
     }
-    private void addDataToFirestore(){
-        FirebaseFirestore database = FirebaseFirestore.getInstance();
-        HashMap <String,Object> data = new HashMap<>();
-        data.put("first_name","mina");
-        data.put("last_name","maher");
-        database.collection("users")
-                .add(data)
-                .addOnSuccessListener(documentReference -> {
-                    Toast.makeText(getApplicationContext(),"Data Inserted",Toast.LENGTH_LONG ).show();
-                })
-                .addOnFailureListener(exception -> {
-                    Toast.makeText(getApplicationContext(),exception.getMessage() ,Toast.LENGTH_LONG).show();
-                });
-    }
+//    private void addDataToFirestore(){
+//        FirebaseFirestore database = FirebaseFirestore.getInstance();
+//        HashMap <String,Object> data = new HashMap<>();
+//        data.put("first_name","mina");
+//        data.put("last_name","maher");
+//        database.collection("users")
+//                .add(data)
+//                .addOnSuccessListener(documentReference -> {
+//                    Toast.makeText(getApplicationContext(),"Data Inserted",Toast.LENGTH_LONG ).show();
+//                })
+//                .addOnFailureListener(exception -> {
+//                    Toast.makeText(getApplicationContext(),exception.getMessage() ,Toast.LENGTH_LONG).show();
+//                });
+//    }
 }

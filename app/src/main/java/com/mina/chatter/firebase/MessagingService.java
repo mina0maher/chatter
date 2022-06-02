@@ -1,4 +1,4 @@
-package com.mina.firebase;
+package com.mina.chatter.firebase;
 
 import android.util.Log;
 
