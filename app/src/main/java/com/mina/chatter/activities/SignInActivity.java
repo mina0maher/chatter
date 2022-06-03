@@ -72,8 +72,6 @@ public class SignInActivity extends AppCompatActivity {
             binding.buttonSignIn.setVisibility(View.VISIBLE);
         }
     }
-    //todo : 5:00
-
     private void showToast(String message ){
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();
     }

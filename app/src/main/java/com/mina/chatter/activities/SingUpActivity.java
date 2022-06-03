@@ -37,7 +37,6 @@ public class SingUpActivity extends AppCompatActivity {
         setListeners();
     }
 
-    // TODO: video 3 after 6 : 00
     private void setListeners() {
         binding.textSignIn.setOnClickListener(v -> onBackPressed());
         binding.buttonSignUp.setOnClickListener(v -> {
@@ -91,7 +90,6 @@ public class SingUpActivity extends AppCompatActivity {
         return Base64.encodeToString(bytes, Base64.DEFAULT);
     }
 
-    //todo : 13 : 00
     private final ActivityResultLauncher<Intent> pickImage = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
             result -> {
