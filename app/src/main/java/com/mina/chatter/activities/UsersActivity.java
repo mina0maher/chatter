@@ -1,5 +1,6 @@
 package com.mina.chatter.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -9,6 +10,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.mina.chatter.adapters.UsersAdapter;
 import com.mina.chatter.databinding.ActivityUsersBinding;
+import com.mina.chatter.listeners.UserListener;
 import com.mina.chatter.models.User;
 import com.mina.chatter.utilities.Constants;
 import com.mina.chatter.utilities.PreferenceManager;
@@ -16,7 +18,7 @@ import com.mina.chatter.utilities.PreferenceManager;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UsersActivity extends AppCompatActivity {
+public class UsersActivity extends AppCompatActivity implements UserListener {
     private ActivityUsersBinding binding;
     private PreferenceManager preferenceManager;
     @Override
@@ -54,7 +56,7 @@ public class UsersActivity extends AppCompatActivity {
                            users.add(user);
                        }
                        if(users.size() > 0 ){
-                           UsersAdapter usersAdapter = new UsersAdapter(users);
+                           UsersAdapter usersAdapter = new UsersAdapter(users,this);
                            binding.userRecyclerView.setAdapter(usersAdapter);
                            binding.userRecyclerView.setVisibility(View.VISIBLE);
                        }else{
@@ -78,5 +80,11 @@ public class UsersActivity extends AppCompatActivity {
         }
     }
 
-
+    @Override
+    public void onUserClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(),ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER,user);
+        startActivity(intent);
+        finish();
+    }
 }
