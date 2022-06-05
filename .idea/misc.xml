@@ -4,13 +4,20 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/bacground_input.xml" value="0.1" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_chat_input.xml" value="0.1" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_content_bottom.xml" value="0.1" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_content_top.xml" value="0.1" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_icon.xml" value="0.1" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_image.xml" value="0.1" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_received_message.xml" value="0.1" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/drawable/background_sent_message.xml" value="0.1" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/activity_chat.xml" value="0.16" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/activity_main.xml" value="0.2" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/activity_sign_in.xml" value="0.13323201621073963" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/activity_sing_up.xml" value="0.264" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/activity_users.xml" value="0.10925925925925926" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/item_container_received_message.xml" value="0.1" />
+        <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/item_container_sent_message.xml" value="0.1" />
         <entry key="..\:/Users/maher/AndroidStudioProjects/chatter/app/src/main/res/layout/item_container_user.xml" value="0.1" />
       </map>
     </option>
