@@ -9,29 +9,49 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mina.chatter.adapters.RecentConversionsAdapter;
 import com.mina.chatter.databinding.ActivityMainBinding;
+import com.mina.chatter.models.ChatMessage;
 import com.mina.chatter.utilities.Constants;
 import com.mina.chatter.utilities.PreferenceManager;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    ActivityMainBinding binding ;
+    private ActivityMainBinding binding ;
     private PreferenceManager preferenceManager;
+    private List<ChatMessage> conversations;
+    private RecentConversionsAdapter conversionsAdapter;
+    private FirebaseFirestore database;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());
+        init();
         loadUserDetails();
         getToken();
         setListeners();
     }
+
+    private void init(){
+        conversations = new ArrayList<>();
+        conversionsAdapter = new RecentConversionsAdapter(conversations);
+        binding.conversionsRecyclerView.setAdapter(conversionsAdapter);
+        database = FirebaseFirestore.getInstance();
+    }
+
     private void setListeners(){
         binding.imageSignOut.setOnClickListener(v -> signOut());
         binding.fabNewChat.setOnClickListener(v -> {
@@ -47,6 +67,40 @@ public class MainActivity extends AppCompatActivity {
     private void showToast (String message){
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
     }
+
+    private final EventListener<QuerySnapshot>eventListener = (value, error) -> {
+      if(error != null){
+          return;
+      }
+      if(value != null){
+          for(DocumentChange documentChange:value.getDocumentChanges()){
+              if(documentChange.getType() == DocumentChange.Type.ADDED){
+                  String senderId =documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                  String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                  ChatMessage chatMessage = new ChatMessage();
+                  chatMessage.senderId = senderId;
+                  chatMessage.receiverId = receiverId;
+                  if(preferenceManager.getString(Constants.KEY_USER_ID).equals(senderId)){
+                      chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_RECEIVER_IMAGE);
+                      chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_RECEIVER_NAME);
+                      chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                  }else{
+                      chatMessage.conversionImage = documentChange.getDocument().getString(Constants.KEY_SENDER_IMAGE);
+                      chatMessage.conversionName = documentChange.getDocument().getString(Constants.KEY_SENDER_NAME);
+                      chatMessage.conversionId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                  }
+                  chatMessage.message  = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                  chatMessage.dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                  conversations.add(chatMessage);
+              }else if(documentChange.getType() == DocumentChange.Type.MODIFIED){
+                  for(int i = 0 ; i< conversations.size();i++){
+                      //todo: video 10 after minute 28:00
+                  }
+              }
+          }
+      }
+    };
+
     private void getToken(){
         FirebaseMessaging.getInstance().getToken().addOnSuccessListener(this::updateToken);
     }
