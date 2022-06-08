@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.util.Base64;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,15 +19,18 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.mina.chatter.adapters.RecentConversionsAdapter;
 import com.mina.chatter.databinding.ActivityMainBinding;
+import com.mina.chatter.listeners.ConversionListener;
 import com.mina.chatter.models.ChatMessage;
+import com.mina.chatter.models.User;
 import com.mina.chatter.utilities.Constants;
 import com.mina.chatter.utilities.PreferenceManager;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements ConversionListener {
     private ActivityMainBinding binding ;
     private PreferenceManager preferenceManager;
     private List<ChatMessage> conversations;
@@ -43,11 +47,12 @@ public class MainActivity extends AppCompatActivity {
         loadUserDetails();
         getToken();
         setListeners();
+        listenConversions();
     }
 
     private void init(){
         conversations = new ArrayList<>();
-        conversionsAdapter = new RecentConversionsAdapter(conversations);
+        conversionsAdapter = new RecentConversionsAdapter(conversations,this);
         binding.conversionsRecyclerView.setAdapter(conversionsAdapter);
         database = FirebaseFirestore.getInstance();
     }
@@ -66,6 +71,16 @@ public class MainActivity extends AppCompatActivity {
     }
     private void showToast (String message){
         Toast.makeText(getApplicationContext(),message,Toast.LENGTH_SHORT).show();
+    }
+
+    private void listenConversions(){
+        database.collection(Constants.KEY_COLLECTION_CONVERSIONS)
+                .whereEqualTo(Constants.KEY_SENDER_ID,preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+        database.collection(Constants.KEY_COLLECTION_CONVERSIONS)
+                .whereEqualTo(Constants.KEY_RECEIVER_ID,preferenceManager.getString(Constants.KEY_USER_ID))
+                .addSnapshotListener(eventListener);
+
     }
 
     private final EventListener<QuerySnapshot>eventListener = (value, error) -> {
@@ -94,10 +109,21 @@ public class MainActivity extends AppCompatActivity {
                   conversations.add(chatMessage);
               }else if(documentChange.getType() == DocumentChange.Type.MODIFIED){
                   for(int i = 0 ; i< conversations.size();i++){
-                      //todo: video 10 after minute 28:00
+                      String senderId = documentChange.getDocument().getString(Constants.KEY_SENDER_ID);
+                      String receiverId = documentChange.getDocument().getString(Constants.KEY_RECEIVER_ID);
+                      if(conversations.get(i).senderId.equals(senderId)&&conversations.get(i).receiverId.equals(receiverId)){
+                          conversations.get(i).message = documentChange.getDocument().getString(Constants.KEY_LAST_MESSAGE);
+                          conversations.get(i).dateObject = documentChange.getDocument().getDate(Constants.KEY_TIMESTAMP);
+                          break;
+                      }
                   }
               }
           }
+          Collections.sort(conversations,(obj1,obj2)-> obj2.dateObject.compareTo(obj1.dateObject));
+          conversionsAdapter.notifyDataSetChanged();
+          binding.conversionsRecyclerView.smoothScrollToPosition(0);
+          binding.conversionsRecyclerView.setVisibility(View.VISIBLE);
+          binding.progressBar.setVisibility(View.GONE);
       }
     };
 
@@ -129,5 +155,12 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                 })
                 .addOnFailureListener(e -> showToast("Unable to sign out"));
+    }
+
+    @Override
+    public void onConversionClicked(User user) {
+        Intent intent = new Intent(getApplicationContext(),ChatActivity.class);
+        intent.putExtra(Constants.KEY_USER,user);
+        startActivity(intent);
     }
 }
