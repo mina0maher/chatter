@@ -99,7 +99,7 @@
         android:visibility="gone"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@+id/viewBackground"
-        app:layout_constraintTop_toBottomOf="@+id/textAvailability"
+        app:layout_constraintTop_toBottomOf="@+id/viewSupporter"
         />
     <ProgressBar
         android:id="@+id/progressBar"
