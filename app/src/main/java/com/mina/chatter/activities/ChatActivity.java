@@ -102,6 +102,7 @@ public class ChatActivity extends BaseActivity {
                    ).intValue();
                    isReceiverAvailable = availability == 1 ;
                }
+               receiverUser.token = value.getString(Constants.KEY_FCM_TOKEN);
            }
            if(isReceiverAvailable){
                binding.textAvailability.setVisibility(View.VISIBLE);
