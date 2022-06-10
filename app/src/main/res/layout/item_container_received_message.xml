@@ -26,6 +26,7 @@
         android:paddingEnd="@dimen/_12sdp"
         android:paddingBottom="@dimen/_8sdp"
         app:layout_constraintWidth_max="wrap"
+        android:ellipsize="marquee"
         android:textColor="@color/white"
         android:textSize="@dimen/_13ssp"
         app:layout_constraintStart_toEndOf="@id/imageProfile"
