@@ -15,6 +15,7 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.messaging.FirebaseMessaging;
+import com.mina.chatter.R;
 import com.mina.chatter.adapters.RecentConversionsAdapter;
 import com.mina.chatter.databinding.ActivityMainBinding;
 import com.mina.chatter.listeners.ConversionListener;
@@ -38,6 +39,7 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_Chatter);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());

@@ -13,7 +13,7 @@
         android:label="@string/app_name"
         android:roundIcon="@drawable/ic_main"
         android:supportsRtl="false"
-        android:theme="@style/Theme.Chatter"
+        android:theme="@style/splash_screen_theme"
         tools:targetApi="31">
         <activity
             android:name=".activities.ChatActivity"

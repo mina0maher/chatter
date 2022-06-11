@@ -6,6 +6,7 @@ import android.view.View;
 
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.mina.chatter.R;
 import com.mina.chatter.adapters.UsersAdapter;
 import com.mina.chatter.databinding.ActivityUsersBinding;
 import com.mina.chatter.listeners.UserListener;
@@ -22,6 +23,7 @@ public class UsersActivity extends BaseActivity implements UserListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTheme(R.style.Theme_Chatter);
         binding=ActivityUsersBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         preferenceManager = new PreferenceManager(getApplicationContext());

@@ -84,7 +84,7 @@
         android:overScrollMode="never"
         android:padding="@dimen/_20sdp"
         app:stackFromEnd="true"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="@+id/viewBackground"
         app:layout_constraintTop_toBottomOf="@+id/viewSupporter"
@@ -137,17 +137,19 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@id/layoutSend"
         app:layout_constraintStart_toStartOf="parent"/>
-        <TextView
-            android:id="@+id/textAvailability"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/green"
-            android:textSize="@dimen/_10ssp"
-            android:textColor="@color/white"
-            android:padding="@dimen/_2sdp"
-            android:text="@string/online"
-            android:gravity="center"
-            android:visibility="gone"
-            app:layout_constraintTop_toBottomOf="@id/viewSupporter"
-            />
+
+    <TextView
+        android:id="@+id/textAvailability"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/green"
+        android:gravity="center"
+        android:padding="@dimen/_2sdp"
+        android:text="@string/online"
+        android:textColor="@color/white"
+        android:textSize="@dimen/_10ssp"
+        android:visibility="visible"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/viewSupporter" />
 </androidx.constraintlayout.widget.ConstraintLayout>
