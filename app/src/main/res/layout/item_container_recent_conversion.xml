@@ -33,7 +33,8 @@
         android:textSize="@dimen/_13ssp"
         app:layout_constraintBottom_toTopOf="@+id/viewSupporter"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/imageProfile"/>
+        app:layout_constraintStart_toEndOf="@+id/imageProfile"
+        android:transitionName="nameTransition"/>
     <TextView
         android:id="@+id/textRecentMessage"
         android:layout_width="0dp"

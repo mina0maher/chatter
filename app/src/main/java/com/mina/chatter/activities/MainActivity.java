@@ -4,9 +4,15 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Base64;
 import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.ViewCompat;
 
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -18,7 +24,9 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import com.mina.chatter.R;
 import com.mina.chatter.adapters.RecentConversionsAdapter;
 import com.mina.chatter.databinding.ActivityMainBinding;
+import com.mina.chatter.fragments.PictureFragment;
 import com.mina.chatter.listeners.ConversionListener;
+import com.mina.chatter.listeners.PictureListener;
 import com.mina.chatter.models.ChatMessage;
 import com.mina.chatter.models.User;
 import com.mina.chatter.utilities.Constants;
@@ -29,7 +37,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends BaseActivity implements ConversionListener {
+public class MainActivity extends BaseActivity implements ConversionListener , PictureListener {
     private ActivityMainBinding binding ;
     private PreferenceManager preferenceManager;
     private List<ChatMessage> conversations;
@@ -42,6 +50,8 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         setTheme(R.style.Theme_Chatter);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setTitle("mainActivity");
+        modifyTransition();
         preferenceManager = new PreferenceManager(getApplicationContext());
         init();
         loadUserDetails();
@@ -49,10 +59,24 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         setListeners();
         listenConversions();
     }
+    public void modifyTransition(){
+        Fade fade = new Fade();
+        fade.excludeTarget(getActionBarView(),true);
+        fade.excludeTarget(android.R.id.statusBarBackground,true);
+        fade.excludeTarget(android.R.id.navigationBarBackground,true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+    }
+    public View getActionBarView() {
+        Window window = getWindow();
+        View v = window.getDecorView();
+        int resId = getResources().getIdentifier("action_bar_container", "id", "android");
+        return v.findViewById(resId);
+    }
 
     private void init(){
         conversations = new ArrayList<>();
-        conversionsAdapter = new RecentConversionsAdapter(conversations,this);
+        conversionsAdapter = new RecentConversionsAdapter(conversations,this,this);
         binding.conversionsRecyclerView.setAdapter(conversionsAdapter);
         database = FirebaseFirestore.getInstance();
     }
@@ -61,6 +85,12 @@ public class MainActivity extends BaseActivity implements ConversionListener {
         binding.imageSignOut.setOnClickListener(v -> signOut());
         binding.fabNewChat.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(),UsersActivity.class));
+        });
+        binding.imageProfile.setOnClickListener(v -> {
+            byte[] bytes = Base64.decode(preferenceManager.getString(Constants.KEY_IMAGE), android.util.Base64.DEFAULT);
+            Bitmap bitmap = BitmapFactory.decodeByteArray(bytes,0,bytes.length);
+            PictureFragment pictureFragment = new PictureFragment(bitmap);
+            pictureFragment.show(getSupportFragmentManager(),null);
         });
     }
     private void loadUserDetails(){
@@ -159,9 +189,16 @@ public class MainActivity extends BaseActivity implements ConversionListener {
     }
 
     @Override
-    public void onConversionClicked(User user) {
+    public void onConversionClicked(User user, TextView textView) {
         Intent intent = new Intent(getApplicationContext(),ChatActivity.class);
         intent.putExtra(Constants.KEY_USER,user);
-        startActivity(intent);
+        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MainActivity.this,textView, ViewCompat.getTransitionName(textView));
+        startActivity(intent,options.toBundle());
+    }
+
+    @Override
+    public void onPictureClicked(Bitmap bitmap) {
+        PictureFragment pictureFragment=new PictureFragment(bitmap);
+        pictureFragment.show(getSupportFragmentManager(),null);
     }
 }

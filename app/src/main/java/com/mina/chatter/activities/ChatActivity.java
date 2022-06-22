@@ -3,8 +3,10 @@ package com.mina.chatter.activities;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Base64;
 import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -60,11 +62,28 @@ public class ChatActivity extends BaseActivity {
         setTheme(R.style.Theme_Chatter);
         binding = ActivityChatBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        setTitle("chatActivity");
+        modifyTransition();
         setListeners();
         loadReceiverDetails();
         init();
         listenMessages();
 
+    }
+
+    public void modifyTransition(){
+        Fade fade = new Fade();
+        fade.excludeTarget(getActionBarView(),true);
+        fade.excludeTarget(android.R.id.statusBarBackground,true);
+        fade.excludeTarget(android.R.id.navigationBarBackground,true);
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+    }
+    public View getActionBarView() {
+        Window window = getWindow();
+        View v = window.getDecorView();
+        int resId = getResources().getIdentifier("action_bar_container", "id", "android");
+        return v.findViewById(resId);
     }
 
     private void sendMessage(){

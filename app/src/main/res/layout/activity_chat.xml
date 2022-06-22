@@ -63,7 +63,8 @@
         app:layout_constraintBottom_toBottomOf="@id/imageBack"
         app:layout_constraintEnd_toStartOf="@id/imageInfo"
         app:layout_constraintStart_toEndOf="@id/imageBack"
-        app:layout_constraintTop_toTopOf="@id/imageBack"/>
+        app:layout_constraintTop_toTopOf="@id/imageBack"
+        android:transitionName="nameTransition"/>
 
     <View
         android:id="@+id/viewSupporter"

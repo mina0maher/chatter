@@ -8,5 +8,6 @@
     <style name="splash_screen_theme" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="android:windowBackground">@drawable/splash_image</item>
         <item name="android:statusBarColor">@color/primary</item>
+        <item name="android:windowContentTransitions">true</item>
     </style>
 </resources>

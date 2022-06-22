@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.mina.chatter.databinding.ItemContainerUserBinding;
+import com.mina.chatter.listeners.PictureListener;
 import com.mina.chatter.listeners.UserListener;
 import com.mina.chatter.models.User;
 
@@ -19,10 +20,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
 
     private final List<User> users;
     private final UserListener userListener;
+    public final PictureListener pictureListener;
 
-    public UsersAdapter(List<User> users,UserListener userListener) {
+    public UsersAdapter(List<User> users,UserListener userListener,PictureListener pictureListener) {
         this.users = users;
         this.userListener = userListener;
+        this.pictureListener=pictureListener;
     }
 
     @NonNull
@@ -58,7 +61,13 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserViewHold
             binding.textName.setText(user.name);
             binding.textEmail.setText(user.email);
             binding.imageProfile.setImageBitmap(getUserImage(user.image));
-            binding.getRoot().setOnClickListener(v ->  userListener.onUserClicked(user));
+            binding.getRoot().setOnClickListener(v ->  {
+
+                userListener.onUserClicked(user,binding.textName);
+            });
+            binding.imageProfile.setOnClickListener(v->{
+                pictureListener.onPictureClicked(getUserImage(user.image));
+            });
         }
     }
 

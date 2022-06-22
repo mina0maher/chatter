@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.mina.chatter.databinding.ItemContainerRecentConversionBinding;
 import com.mina.chatter.listeners.ConversionListener;
+import com.mina.chatter.listeners.PictureListener;
 import com.mina.chatter.models.ChatMessage;
 import com.mina.chatter.models.User;
 
@@ -20,10 +21,14 @@ public class RecentConversionsAdapter extends  RecyclerView.Adapter<RecentConver
 
     private final List<ChatMessage> chatMessages ;
     private final ConversionListener conversionListener;
+    private final PictureListener pictureListener;
 
-    public RecentConversionsAdapter(List<ChatMessage> chatMessages,ConversionListener conversionListener) {
+
+
+    public RecentConversionsAdapter(List<ChatMessage> chatMessages,ConversionListener conversionListener,PictureListener pictureListener) {
         this.chatMessages = chatMessages;
         this.conversionListener = conversionListener;
+        this.pictureListener=pictureListener;
     }
 
     @NonNull
@@ -63,7 +68,10 @@ public class RecentConversionsAdapter extends  RecyclerView.Adapter<RecentConver
                 user.id = chatMessage.conversionId;
                 user.name = chatMessage.conversionName;
                 user.image = chatMessage.conversionImage;
-                conversionListener.onConversionClicked(user);
+                conversionListener.onConversionClicked(user,binding.textName);
+            });
+            binding.imageProfile.setOnClickListener(v->{
+                pictureListener.onPictureClicked(getConversionImage(chatMessage.conversionImage));
             });
         }
     }
